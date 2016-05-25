@@ -545,6 +545,7 @@ class Book(object):
 
         return (aConnection, sConnection)
 
+    
     def create_xray_event(self, aConnection, sConnection, log=None, notifications=None, abort=None, book_num=None, total=None):
         actions = 6.0
         if self._send_to_device:
