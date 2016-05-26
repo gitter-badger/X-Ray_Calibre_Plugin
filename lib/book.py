@@ -17,9 +17,9 @@ from calibre.utils.config import JSONConfig
 from calibre.library import current_library_path
 
 from calibre.ebooks.mobi import MobiError
-from calibre.ebooks.metadata.meta import get_metadata, set_metadata
 from calibre.ebooks.BeautifulSoup import BeautifulSoup
 from calibre.ebooks.metadata.mobi import MetadataUpdater
+from calibre.ebooks.metadata.meta import get_metadata, set_metadata
 
 from calibre_plugins.xray_creator.lib.book_parser import BookParser
 from calibre_plugins.xray_creator.lib.book_settings import BookSettings
