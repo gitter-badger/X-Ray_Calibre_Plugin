@@ -1,8 +1,8 @@
 # shelfari_parser.py
 
 import re
-from urllib2 import build_opener
 from lxml import html
+from urllib2 import build_opener
 
 # Parses shelfari page for characters, terms, and quotes
 class ShelfariParser(object):
