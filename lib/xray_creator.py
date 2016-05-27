@@ -1,7 +1,7 @@
 # xray_creator.py
 
 from datetime import datetime
-from httplib import HTTPConnection
+from httplib import HTTPConnection, HTTPSConnection
 
 from calibre import get_proxies
 
@@ -28,24 +28,28 @@ class XRayCreator(object):
         self._http_port = None
 
         http_proxy = get_proxies(debug=False).get('http', None)
+        https_proxy = get_proxies(debug=False).get('https', None)
         if http_proxy:
             self._proxy = True
             self._http_address = ':'.join(http_proxy.split(':')[:-1])
             self._http_port = int(http_proxy.split(':')[-1])
 
-            self._aConnection = HTTPConnection(self._http_address, self._http_port)
-            self._aConnection.set_tunnel('www.amazon.com', 80)
             self._sConnection = HTTPConnection(self._http_address, self._http_port)
             self._sConnection.set_tunnel('www.shelfari.com', 80)
         else:
-            self._aConnection = HTTPConnection('www.amazon.com')
             self._sConnection = HTTPConnection('www.shelfari.com')
+
+        if https_proxy:
+            self._aConnection = HTTPSConnection(self._https_address, self._https_port)
+            self._aConnection.set_tunnel('www.amazon.com', 80)
+        else:
+            self._aConnection = HTTPSConnection('www.amazon.com')
 
         self._books = []
         for book_id in self._book_ids:
             self._books.append(Book(self._db, book_id, self._aConnection, self._sConnection, formats=self._formats, spoilers=self._spoilers,
                 send_to_device=self._send_to_device, create_xray=self._create_xray, proxy=self._proxy,
-                http_address=self._http_address, http_port=self._http_port))
+                http_address=self._http_address, http_port=self._http_port, https_address=self._https_address, https_port=self._https_port))
         
         self._total_not_failing = sum([1 for book in self._books if book.status is not book.FAIL])
 
